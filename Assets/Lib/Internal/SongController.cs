@@ -33,7 +33,7 @@ public class SongController : MonoBehaviour {
 		// Process audio as it plays
 		if (realTimeSamples) {
 			realTimeSpectrum = new float[1024];
-			realTimeSpectralFluxAnalyzer = new SpectralFluxAnalyzer ();
+			realTimeSpectralFluxAnalyzer = new SpectralFluxAnalyzer (AudioSettings.outputSampleRate);
 			realTimePlotController = GameObject.Find ("RealtimePlot").GetComponent<PlotController> ();
 
 			this.sampleRate = AudioSettings.outputSampleRate;
@@ -41,7 +41,7 @@ public class SongController : MonoBehaviour {
 
 		// Preprocess entire audio file upfront
 		if (preProcessSamples) {
-			preProcessedSpectralFluxAnalyzer = new SpectralFluxAnalyzer ();
+			preProcessedSpectralFluxAnalyzer = new SpectralFluxAnalyzer (audioSource.clip.frequency);
 			preProcessedPlotController = GameObject.Find ("PreprocessedPlot").GetComponent<PlotController> ();
 
 			// Need all audio samples.  If in stereo, samples will return with left and right channels interweaved

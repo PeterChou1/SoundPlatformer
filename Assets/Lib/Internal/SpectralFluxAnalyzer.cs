@@ -12,30 +12,35 @@ public class SpectralFluxInfo {
 }
 
 public class SpectralFluxAnalyzer {
-	int numSamples = 1024;
 
+	public List<SpectralFluxInfo> spectralFluxSamples;
+	private float hzPerBin;
+	private float[] curSpectrum;
+	private float[] prevSpectrum;
+	private int indexToProcess;
+	private float lowerLimit = 27.5f;
+	private float upperLimit = 4186f;
+	private int lowerIndex;
+	private int upperIndex;
+	readonly int numSamples = 1024;
 	// Sensitivity multiplier to scale the average threshold.
 	// In this case, if a rectified spectral flux sample is > 1.5 times the average, it is a peak
 	float thresholdMultiplier = 1.5f;
-
 	// Number of samples to average in our window
-	int thresholdWindowSize = 50;
+	int thresholdWindowSize = 100;
+	
 
-	public List<SpectralFluxInfo> spectralFluxSamples;
-
-	float[] curSpectrum;
-	float[] prevSpectrum;
-
-	int indexToProcess;
-
-	public SpectralFluxAnalyzer () {
+	public SpectralFluxAnalyzer (int rate) {
 		spectralFluxSamples = new List<SpectralFluxInfo> ();
 
 		// Start processing from middle of first window and increment by 1 from there
 		indexToProcess = thresholdWindowSize / 2;
-
 		curSpectrum = new float[numSamples];
 		prevSpectrum = new float[numSamples];
+		hzPerBin = rate / numSamples;
+		lowerIndex = (int) (lowerLimit / hzPerBin);
+		upperIndex = (int) (upperLimit / hzPerBin);
+
 	}
 
 	public void setCurSpectrum(float[] spectrum) {
@@ -80,7 +85,7 @@ public class SpectralFluxAnalyzer {
 		float sum = 0f;
 
 		// Aggregate positive changes in spectrum data
-		for (int i = 0; i < numSamples; i++) {
+		for (int i = lowerIndex; i < upperIndex; i++) {
 			sum += Mathf.Max (0f, curSpectrum [i] - prevSpectrum [i]);
 		}
 		return sum;

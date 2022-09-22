@@ -12,6 +12,7 @@ public class LevelSelectHandler : MonoBehaviour
     // components needed to setup level
     public TMP_Text levelTitle;
     public AudioSource audioSource;
+    public LevelCreator creator;
     
     private void Awake()
     {
@@ -23,5 +24,7 @@ public class LevelSelectHandler : MonoBehaviour
     {
         levelTitle.text = levelObject.levelName;
         audioSource.clip = levelObject.levelAudio;
+        creator.CreateLevel();
+        audioSource.Play();
     }
 }

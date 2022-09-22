@@ -1,13 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using DSPLib;
 using UnityEngine;
+using Complex = System.Numerics.Complex;
 using UnityEngine.Tilemaps;
 
 public class LevelCreator : MonoBehaviour
 {
+	public GameObject Player;
+	private bool LevelCreated;
     // Start is called before the first frame update
     private AudioSource audioSource;
     private Tilemap map;
@@ -16,13 +17,22 @@ public class LevelCreator : MonoBehaviour
     private int sampleRate;
     private float clipLength;
     private float[] multiChannelSamples;
-    SpectralFluxAnalyzer preProcessedSpectralFluxAnalyzer;
-    
-    void CreateLevel()
+    private SpectralFluxAnalyzer preProcessedSpectralFluxAnalyzer;
+    private int index;
+    private List<SpectralFluxInfo> pointInfo;
+    private Vector3 velocity = Vector3.zero;
+    private Vector3 originalPos;
+    private GameObject playerInScene;
+    public void Awake()
     {
+	    originalPos = transform.position;
 	    audioSource = GetComponent<AudioSource>();
-        map = GetComponentInChildren<Tilemap>();
-        preProcessedSpectralFluxAnalyzer = new SpectralFluxAnalyzer (AudioSettings.outputSampleRate);
+	    map = GetComponentInChildren<Tilemap>();
+    }
+
+    public void CreateLevel()
+    {
+	    preProcessedSpectralFluxAnalyzer = new SpectralFluxAnalyzer (AudioSettings.outputSampleRate);
         multiChannelSamples = new float[audioSource.clip.samples * audioSource.clip.channels];
         numChannels = audioSource.clip.channels;
         numTotalSamples = audioSource.clip.samples;
@@ -31,20 +41,64 @@ public class LevelCreator : MonoBehaviour
         audioSource.clip.GetData(multiChannelSamples, 0);
         getFullSpectrum();
         // get spectral flux list
-        List<SpectralFluxInfo> pointInfo = preProcessedSpectralFluxAnalyzer.spectralFluxSamples;
+        pointInfo = preProcessedSpectralFluxAnalyzer.spectralFluxSamples;
         // generate a level based on Spectral flux analysis
         for(int i = 0; i < pointInfo.Count; i++)
         {
 	        var point = pointInfo[i];
-	        var pos = new Vector3Int(i, (int)(point.threshold * 10), 0);
-	        map.SetTile(pos, TileLoader.GetTestTile());
-	        Debug.Log(point.threshold);
+	        var posFloor = new Vector3Int(i, 0, 0);
+	        map.SetTile(posFloor, TileLoader.GetTestTile());
+	        // if we have a peak
+	        if (point.isPeak)
+	        {
+		        var posThreshold = new Vector3Int(i, (int)(point.spectralFlux * 10), 0);
+		        map.SetTile(posThreshold, TileLoader.GetTestTile());
+	        }
         }
+        playerInScene = Instantiate(Player, new Vector3(0, 1, 0), Quaternion.identity);
+        playerInScene.GetComponent<SpriteRenderer>().sortingOrder = 5;
+        LevelCreated = true;
     }
-    
-    public float getTimeFromIndex(int index) {
+
+    public void DestroyLevel()
+    {
+	    transform.position = originalPos;
+	    map.ClearAllTiles();
+	    audioSource.Stop();
+	    Destroy(playerInScene);
+	    index = 0;
+	    LevelCreated = false;
+    }
+
+
+    public void Update()
+    {
+	    if (LevelCreated && index < pointInfo.Count - 1)
+	    {
+		    var curSpectral = pointInfo[index];
+		    var nextSpectral = pointInfo[index + 1];
+		    var curDistance = Math.Abs(curSpectral.time - audioSource.time);
+		    var nextDistance = Math.Abs(nextSpectral.time - audioSource.time);
+		    if (nextDistance < curDistance)
+		    {
+			    index += 1;
+		    }
+		    Vector3 center = -map.GetCellCenterWorld(new Vector3Int(index, 0, 0));
+		    center.y = 0;
+		    center.z = 0;
+		    // current 
+		    var currentPos = Vector3.SmoothDamp(transform.position, center, ref velocity, 0.03f);
+		    transform.position = currentPos;
+	    }
+    }
+
+    public float getTimeFromIndex(int index) 
+    {
 	    return 1f / sampleRate * index;
     }
+    
+    
+
     
     public void getFullSpectrum() {
 
@@ -65,17 +119,12 @@ public class LevelCreator : MonoBehaviour
 				}
 			}
 
-			Debug.Log ("Combine Channels done");
-			Debug.Log (preProcessedSamples.Length);
-
 			// Once we have our audio sample data prepared, we can execute an FFT to return the spectrum data over the time domain
 			int spectrumSampleSize = 1024;
 			int iterations = preProcessedSamples.Length / spectrumSampleSize;
 
 			FFT fft = new FFT ();
 			fft.Initialize ((UInt32)spectrumSampleSize);
-
-			Debug.Log (string.Format("Processing {0} time domain samples for FFT", iterations));
 			double[] sampleChunk = new double[spectrumSampleSize];
 			for (int i = 0; i < iterations; i++) {
 				// Grab the current 1024 chunk of audio sample data
@@ -96,9 +145,7 @@ public class LevelCreator : MonoBehaviour
 				// Send our magnitude data off to our Spectral Flux Analyzer to be analyzed for peaks
 				preProcessedSpectralFluxAnalyzer.analyzeSpectrum (Array.ConvertAll (scaledFFTSpectrum, x => (float)x), curSongTime);
 			}
-
-			Debug.Log ("Spectrum Analysis done");
-			Debug.Log ("Background Thread Completed");
+			
 				
 		} catch (Exception e) {
 			// Catch exceptions here since the background thread won't always surface the exception to the main thread

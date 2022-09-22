@@ -18,6 +18,7 @@ public class SpectralFluxAnalyzer {
 	private float[] curSpectrum;
 	private float[] prevSpectrum;
 	private int indexToProcess;
+	private bool useAllSpectrum = true;
 	private float lowerLimit = 27.5f;
 	private float upperLimit = 4186f;
 	private int lowerIndex;
@@ -76,17 +77,22 @@ public class SpectralFluxAnalyzer {
 			}
 			indexToProcess++;
 		}
-		else {
-			Debug.Log(string.Format("Not ready yet.  At spectral flux sample size of {0} growing to {1}", spectralFluxSamples.Count, thresholdWindowSize));
-		}
 	}
 
 	float calculateRectifiedSpectralFlux() {
 		float sum = 0f;
-
 		// Aggregate positive changes in spectrum data
-		for (int i = lowerIndex; i < upperIndex; i++) {
-			sum += Mathf.Max (0f, curSpectrum [i] - prevSpectrum [i]);
+		if (useAllSpectrum)
+		{
+			for (int i = 0; i < curSpectrum.Length; i++) {
+				sum += Mathf.Max (0f, curSpectrum [i] - prevSpectrum [i]);
+			}
+		}
+		else
+		{
+			for (int i = lowerIndex; i < upperIndex; i++) {
+				sum += Mathf.Max (0f, curSpectrum [i] - prevSpectrum [i]);
+			}
 		}
 		return sum;
 	}

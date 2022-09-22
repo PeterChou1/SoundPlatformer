@@ -131,6 +131,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &404073699823588292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8534187393660199149}
+  - component: {fileID: 3787183342032354377}
+  m_Layer: 0
+  m_Name: HallwayCollider (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8534187393660199149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404073699823588292}
+  m_LocalRotation: {x: -0.0023161469, y: -0.707103, z: 0.0023161469, w: 0.707103}
+  m_LocalPosition: {x: -0.349, y: 1.555, z: 0.772}
+  m_LocalScale: {x: 0.24052246, y: 0.5, z: 3.346767}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9210208649260512110}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3787183342032354377
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404073699823588292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6169293, y: 2.6145978, z: 0.9826792}
+  m_Center: {x: -0.80846155, y: -0.2532065, z: -0.008712283}
 --- !u!1 &1153745421218507886
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +259,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1569070863152013570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5741080711463326389}
+  - component: {fileID: 3405003810491966323}
+  m_Layer: 0
+  m_Name: StairCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5741080711463326389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569070863152013570}
+  m_LocalRotation: {x: -0.0023161469, y: -0.707103, z: 0.0023161469, w: 0.707103}
+  m_LocalPosition: {x: 0.86098, y: 0.17, z: -0.81}
+  m_LocalScale: {x: 0.49999982, y: 0.22843, z: 0.92949957}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9210208649260512110}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3405003810491966323
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569070863152013570}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000002, y: 1, z: 1.0000005}
+  m_Center: {x: 0.0000019073495, y: -2.0279744e-14, z: -0.00004577638}
 --- !u!1 &4689232613515509607
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +720,141 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7864775112908515057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 476042161928651083}
+  - component: {fileID: 3487391297598296635}
+  m_Layer: 0
+  m_Name: HallwayCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &476042161928651083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7864775112908515057}
+  m_LocalRotation: {x: -0.0023161469, y: -0.707103, z: 0.0023161469, w: 0.707103}
+  m_LocalPosition: {x: -1.212, y: 1.547, z: -0.387}
+  m_LocalScale: {x: 0.24052246, y: 0.5, z: 3.346767}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9210208649260512110}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3487391297598296635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7864775112908515057}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6169293, y: 2.691235, z: 0.7003106}
+  m_Center: {x: -0.80846155, y: -0.21488786, z: -0.14989437}
+--- !u!1 &9126083794008043004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3964245309730293056}
+  - component: {fileID: 6662867842942891775}
+  m_Layer: 0
+  m_Name: HallwayCollider (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3964245309730293056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126083794008043004}
+  m_LocalRotation: {x: -0.0023161469, y: -0.707103, z: 0.0023161469, w: 0.707103}
+  m_LocalPosition: {x: -0.278, y: 1.551, z: 0.233}
+  m_LocalScale: {x: 0.24052246, y: 0.5, z: 3.346767}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9210208649260512110}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6662867842942891775
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9126083794008043004}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.2130775, y: 2.844936, z: 0.073623575}
+  m_Center: {x: -1.093634, y: -0.13803744, z: -0.46323934}
+--- !u!1 &9197887940018249615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7081233077173467072}
+  - component: {fileID: 7811521258905615447}
+  m_Layer: 0
+  m_Name: HallwayCollider (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7081233077173467072
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9197887940018249615}
+  m_LocalRotation: {x: -0.0023161469, y: -0.707103, z: 0.0023161469, w: 0.707103}
+  m_LocalPosition: {x: -3.496, y: 1.551, z: 0.233}
+  m_LocalScale: {x: 0.24052246, y: 0.5, z: 3.346767}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9210208649260512110}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7811521258905615447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9197887940018249615}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.2130775, y: 2.844936, z: 0.073623575}
+  m_Center: {x: -1.093634, y: -0.13803744, z: -0.46323934}
 --- !u!1001 &1651592041425157962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1617,7 +1842,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: school_bus_interior3 weird 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3688789479411343220, guid: f4598cf3a66efbe4698219600cd35c84,
+        type: 3}
+      propertyPath: m_Name
+      value: FloorCollider
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8094940028882435100, guid: f4598cf3a66efbe4698219600cd35c84, type: 3}
+    - {fileID: 6216021664218980870, guid: f4598cf3a66efbe4698219600cd35c84, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f4598cf3a66efbe4698219600cd35c84, type: 3}
 --- !u!4 &9210208649260512110 stripped
 Transform:

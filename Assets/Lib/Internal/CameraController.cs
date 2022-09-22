@@ -14,8 +14,6 @@ public class CameraController : MonoBehaviour
     }
     void Update()
     {
-
-
         turnx = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         turny = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
         xRot -= turny;

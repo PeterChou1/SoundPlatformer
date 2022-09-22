@@ -35,7 +35,6 @@ public class SongController : MonoBehaviour {
 			realTimeSpectrum = new float[1024];
 			realTimeSpectralFluxAnalyzer = new SpectralFluxAnalyzer (AudioSettings.outputSampleRate);
 			realTimePlotController = GameObject.Find ("RealtimePlot").GetComponent<PlotController> ();
-
 			this.sampleRate = AudioSettings.outputSampleRate;
 		}
 

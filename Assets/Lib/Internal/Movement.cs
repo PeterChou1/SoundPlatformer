@@ -20,8 +20,6 @@ public class Movement : MonoBehaviour
         Cam2D.enabled = false;
         popUpText.enabled = false;
         popUpBg.enabled = false;
-
-
     }
 
     void Update()

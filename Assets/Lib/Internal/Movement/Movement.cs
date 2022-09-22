@@ -89,10 +89,12 @@ public class Movement : MonoBehaviour
                 popUpText.text = "You are waving";
                 StartCoroutine(waiter());
             }
-            /*if (Input.GetMouseButtonUp(0))
+            /*
+             if (Input.GetMouseButtonUp(0))
             {
                 animator.SetBool("isWaving", false);
-            }*/
+            }
+            */
         }
         if (other.gameObject.tag == "door")
         {

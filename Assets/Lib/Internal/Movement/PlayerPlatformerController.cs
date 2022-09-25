@@ -1,26 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPlatformerController : PhysicsObject {
-
-    public float maxSpeed = 7;
-    public float jumpTakeOffSpeed = 7;
+public class PlayerPlatformerController : MonoBehaviour 
+{
     
-    protected override void ComputeVelocity()
+    private float jumpPower = 7.0f;
+    
+    private Rigidbody2D _playerRigidbody;
+    private Vector3 originalPos;
+    private Vector2 smoothV = Vector2.zero;
+    private void Start()
     {
-        Vector2 move = Vector2.zero;
-
-        move.x = Input.GetAxis ("Horizontal");
-
-        if (Input.GetButtonDown ("Jump") && grounded) {
-            velocity.y = jumpTakeOffSpeed;
-        } else if (Input.GetButtonUp ("Jump")) 
+        _playerRigidbody = GetComponent<Rigidbody2D>();
+        originalPos = transform.position;
+    }
+    private void Update()
+    {
+        if (IsGrounded())
         {
-            if (velocity.y > 0) {
-                velocity.y = velocity.y * 0.5f;
+            if (Input.GetButtonDown("Jump"))
+                Jump();
+            originalPos.y = transform.position.y;
+            if (transform.position != originalPos)
+            {
+                transform.position = Vector2.SmoothDamp(transform.position, originalPos, ref smoothV, 1f, 1f);
             }
         }
-        targetVelocity = move * maxSpeed;
+    }
+    
+    private void Jump() => _playerRigidbody.velocity = new Vector2( 0, jumpPower);
+
+    private bool IsGrounded()
+    {
+        var groundCheck = Physics2D.Raycast(transform.position, Vector2.down, 0.7f, LayerMask.GetMask("Ground"));
+        return groundCheck.collider != null;
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Obstacles"))
+        {
+            _playerRigidbody.velocity += new Vector2(-5, 7);
+        }
     }
 }

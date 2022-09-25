@@ -8,6 +8,9 @@ using UnityEngine.Tilemaps;
 public class LevelCreator : MonoBehaviour
 {
 	public GameObject Player;
+	public GameObject Collectable;
+	public GameObject Obstacles;
+	public GameObject Background;
 	private bool LevelCreated;
     // Start is called before the first frame update
     private AudioSource audioSource;
@@ -23,6 +26,10 @@ public class LevelCreator : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Vector3 originalPos;
     private GameObject playerInScene;
+    enum Interacable
+    {
+	    Obstacles, Collectable
+    };
     public void Awake()
     {
 	    originalPos = transform.position;
@@ -46,13 +53,33 @@ public class LevelCreator : MonoBehaviour
         for(int i = 0; i < pointInfo.Count; i++)
         {
 	        var point = pointInfo[i];
-	        var posFloor = new Vector3Int(i, 0, 0);
-	        map.SetTile(posFloor, TileLoader.GetTestTile());
 	        // if we have a peak
 	        if (point.isPeak)
 	        {
-		        var posThreshold = new Vector3Int(i, (int)(point.spectralFlux * 10), 0);
-		        map.SetTile(posThreshold, TileLoader.GetTestTile());
+		        // randomly decide if this is an obstacle or coin
+		        
+		        Type type = typeof(Interacable);
+		        Array values = type.GetEnumValues();
+		        int randomIndex = UnityEngine.Random.Range(0, values.Length);
+		        Interacable spawnObjectType = (Interacable)values.GetValue(randomIndex);
+		        GameObject spawnObject;
+		        if (spawnObjectType == Interacable.Collectable)
+		        {
+			        var posThreshold = new Vector3Int(i, (int)(point.spectralFlux * 10), 0);
+			        var worldPoint= map.CellToWorld(posThreshold);
+			        spawnObject = Instantiate(Collectable, worldPoint, Quaternion.identity);
+			        spawnObject.transform.parent = transform;
+		        }
+		        else if (spawnObjectType == Interacable.Obstacles)
+		        {
+			        var posThreshold = new Vector3Int(i, 0, 0);
+			        var worldPoint= map.CellToWorld(posThreshold);
+			        spawnObject = Instantiate(Obstacles, worldPoint, Quaternion.identity);
+			        var objCollider = spawnObject.GetComponent<BoxCollider2D>();
+			        worldPoint.y += objCollider.size.y;
+			        spawnObject.transform.position = worldPoint;
+			        spawnObject.transform.parent = transform;
+		        }
 	        }
         }
         playerInScene = Instantiate(Player, new Vector3(0, 1, 0), Quaternion.identity);

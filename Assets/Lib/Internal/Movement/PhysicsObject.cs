@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,7 +45,7 @@ public class PhysicsObject : MonoBehaviour {
 
     void FixedUpdate()
     {
-        velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
+        velocity += Physics2D.gravity * (gravityModifier * Time.deltaTime);
         velocity.x = targetVelocity.x;
 
         grounded = false;
@@ -65,42 +66,37 @@ public class PhysicsObject : MonoBehaviour {
     void Movement(Vector2 move, bool yMovement)
     {
         float distance = move.magnitude;
-
-        if (distance > minMoveDistance) 
-        {
-            int count = rb2d.Cast (move, contactFilter, hitBuffer, distance + shellRadius);
-            hitBufferList.Clear ();
-            for (int i = 0; i < count; i++) {
-                hitBufferList.Add (hitBuffer [i]);
-            }
-
-            for (int i = 0; i < hitBufferList.Count; i++) 
-            {
-                Vector2 currentNormal = hitBufferList [i].normal;
-                if (currentNormal.y > minGroundNormalY) 
-                {
-                    grounded = true;
-                    if (yMovement) 
-                    {
-                        groundNormal = currentNormal;
-                        currentNormal.x = 0;
-                    }
-                }
-
-                float projection = Vector2.Dot (velocity, currentNormal);
-                if (projection < 0) 
-                {
-                    velocity = velocity - projection * currentNormal;
-                }
-
-                float modifiedDistance = hitBufferList [i].distance - shellRadius;
-                distance = modifiedDistance < distance ? modifiedDistance : distance;
-            }
-
-
+        int count = rb2d.Cast (move, contactFilter, hitBuffer, distance + shellRadius);
+        hitBufferList.Clear ();
+        for (int i = 0; i < count; i++) {
+            hitBufferList.Add (hitBuffer [i]);
         }
 
-        rb2d.position = rb2d.position + move.normalized * distance;
+        for (int i = 0; i < hitBufferList.Count; i++) 
+        {
+            Vector2 currentNormal = hitBufferList [i].normal;
+            if (currentNormal.y > minGroundNormalY) 
+            {
+                grounded = true;
+                if (yMovement) 
+                {
+                    groundNormal = currentNormal;
+                    currentNormal.x = 0;
+                }
+            }
+
+            float projection = Vector2.Dot (velocity, currentNormal);
+            if (projection < 0) 
+            {
+                velocity = velocity - projection * currentNormal;
+            }
+
+            float modifiedDistance = hitBufferList [i].distance - shellRadius;
+            distance = modifiedDistance < distance ? modifiedDistance : distance;
+        }
+        
+        rb2d.position += move.normalized * distance;
     }
+
 
 }

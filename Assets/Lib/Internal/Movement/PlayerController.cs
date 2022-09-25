@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UIElements;
+using UnityEngine.Audio;
 using Cursor = UnityEngine.Cursor;
 
 [RequireComponent(typeof(Transform))]
@@ -24,6 +25,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseVelocity = Vector2.zero;
     private Transform cameraTransform;
     private bool inSeatArea;
+
+    public Animator animator;
+    public AudioSource source;
+    public AudioClip clip;
 
     void Start()
     {
@@ -70,9 +75,17 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.E) && inSeatArea)
         {
+            source.PlayOneShot(clip);
+
             cameraAnimator.Play("Seat Camera");
             popUpText.enabled = false;
             popUpText.text = "";
+
+            animator.Play("BusLoopStart_Animation");
+
+            GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;
+
+
         }
     }
 

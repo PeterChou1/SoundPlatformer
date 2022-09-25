@@ -16,7 +16,7 @@ public class CollectableController : MonoBehaviour
         animator = GetComponent<Animator>();
         source.clip = _collectables.clip;
         GetComponentInChildren<SpriteRenderer>().sprite = _collectables.image;
-    }g
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {

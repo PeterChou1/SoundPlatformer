@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float walkSpeed = 6f;
     public TMP_Text popUpText;
     public Animator cameraAnimator;
-    [SerializeField] private bool lockCursor = true;
+    [SerializeField] private bool lockCursor = false;
     [SerializeField] [Range(0.0f, 0.5f)] private float moveSmoothTime = 0.3f;
     [SerializeField] [Range(0.0f, 0.5f)] private float mouseSmoothTime = 0.03f;
     [SerializeField] private float gravity = -13f;
@@ -76,16 +76,11 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKey(KeyCode.E) && inSeatArea)
         {
             source.PlayOneShot(clip);
-
             cameraAnimator.Play("Seat Camera");
             popUpText.enabled = false;
             popUpText.text = "";
-
             animator.Play("BusLoopStart_Animation");
-
             GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;
-
-
         }
     }
 

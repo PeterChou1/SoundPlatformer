@@ -57,7 +57,6 @@ public class LevelCreator : MonoBehaviour
 	        if (point.isPeak)
 	        {
 		        // randomly decide if this is an obstacle or coin
-		        
 		        Type type = typeof(Interacable);
 		        Array values = type.GetEnumValues();
 		        int randomIndex = UnityEngine.Random.Range(0, values.Length);
@@ -69,6 +68,7 @@ public class LevelCreator : MonoBehaviour
 			        var worldPoint= map.CellToWorld(posThreshold);
 			        spawnObject = Instantiate(Collectable, worldPoint, Quaternion.identity);
 			        spawnObject.transform.parent = transform;
+			        Debug.Log("Spawn Object pos: " + spawnObject.transform.position);
 		        }
 		        else if (spawnObjectType == Interacable.Obstacles)
 		        {
@@ -79,11 +79,17 @@ public class LevelCreator : MonoBehaviour
 			        worldPoint.y += objCollider.size.y;
 			        spawnObject.transform.position = worldPoint;
 			        spawnObject.transform.parent = transform;
+			        Debug.Log("Spawn Object pos: " + spawnObject.transform.position);
 		        }
 	        }
         }
-        playerInScene = Instantiate(Player, new Vector3(0, 1, 0), Quaternion.identity);
-        playerInScene.GetComponent<SpriteRenderer>().sortingOrder = 5;
+        var start = new Vector3Int(0, (int)0, 0);
+        var startPt= map.CellToWorld(start);
+        var end = new Vector3Int(pointInfo.Count - 1, (int)0, 0);
+        var endPt= map.CellToWorld(end);
+        Debug.Log("Start point :" + startPt + " End pt : " + endPt);
+        //playerInScene = Instantiate(Player, new Vector3(0, 1, 0), Quaternion.identity);
+        //playerInScene.GetComponent<SpriteRenderer>().sortingOrder = 5;
         LevelCreated = true;
     }
 
@@ -102,20 +108,19 @@ public class LevelCreator : MonoBehaviour
     {
 	    if (LevelCreated && index < pointInfo.Count - 1)
 	    {
-		    var curSpectral = pointInfo[index];
-		    var nextSpectral = pointInfo[index + 1];
-		    var curDistance = Math.Abs(curSpectral.time - audioSource.time);
-		    var nextDistance = Math.Abs(nextSpectral.time - audioSource.time);
-		    if (nextDistance < curDistance)
-		    {
-			    index += 1;
-		    }
-		    Vector3 center = -map.GetCellCenterWorld(new Vector3Int(index, 0, 0));
-		    center.y = 0;
-		    center.z = 0;
-		    // current 
-		    var currentPos = Vector3.SmoothDamp(transform.position, center, ref velocity, 0.03f);
-		    transform.position = currentPos;
+		    //var curSpectral = pointInfo[index];
+		    //var nextSpectral = pointInfo[index + 1];
+		    //var curDistance = Math.Abs(curSpectral.time - audioSource.time);
+		    //var nextDistance = Math.Abs(nextSpectral.time - audioSource.time);
+		    //if (nextDistance < curDistance)
+		    //{
+			//    index += 1;
+		    //}
+		    //Vector3 center = -map.GetCellCenterWorld(new Vector3Int(index, 0, 0));
+		    //Debug.Log("index: " + index + " Center of cell: " + center);
+		    //// current 
+		    //var currentPos = Vector3.SmoothDamp(map.transform.position, center, ref velocity, 0.03f);
+		    //map.transform.position = currentPos;
 	    }
     }
 
@@ -124,14 +129,11 @@ public class LevelCreator : MonoBehaviour
 	    return 1f / sampleRate * index;
     }
     
-    
-
-    
     public void getFullSpectrum() {
 
 	    try {
 			// We only need to retain the samples for combined channels over the time domain
-			float[] preProcessedSamples = new float[this.numTotalSamples];
+			float[] preProcessedSamples = new float[numTotalSamples];
 
 			int numProcessed = 0;
 			float combinedChannelAverage = 0f;

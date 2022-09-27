@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerPlatformerController : MonoBehaviour
 {
     public bool finishedLevel = false;
-    private float jumpPower = 7.0f; //JUMP POWER!
+    private float jumpPower = 5.0f; //JUMP POWER!
     private Rigidbody2D _playerRigidbody;
     private Vector3 originalPos;
     private Vector3 finishedPos;

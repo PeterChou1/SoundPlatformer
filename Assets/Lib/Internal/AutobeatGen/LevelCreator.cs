@@ -99,7 +99,10 @@ public class LevelCreator : MonoBehaviour
         float width = Background.GetComponent<SpriteRenderer>().bounds.size.x;
         float height = Background.GetComponent<SpriteRenderer>().bounds.size.y / 2;
         float backgroundFill = 0;
+
         int index = 0;
+
+
         while (backgroundFill < LevelLength  + width)
         {
 	        Vector3 pos = startPt + index * transform.right * width + transform.up * height;

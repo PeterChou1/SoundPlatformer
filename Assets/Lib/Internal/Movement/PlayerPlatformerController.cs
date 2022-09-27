@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerPlatformerController : MonoBehaviour
 {
     public bool finishedLevel = false;
-    private float jumpPower = 7.0f;
+    private float jumpPower = 7.0f; //JUMP POWER!
     private Rigidbody2D _playerRigidbody;
     private Vector3 originalPos;
     private Vector3 finishedPos;
@@ -27,7 +27,7 @@ public class PlayerPlatformerController : MonoBehaviour
             originalPos.y = transform.position.y;
             if (transform.position != originalPos)
             {
-                transform.position = Vector2.SmoothDamp(transform.position, originalPos, ref smoothV, 1f, 1f);
+                transform.position = Vector2.SmoothDamp(transform.position, originalPos, ref smoothV, 1f, 1f);  
             }
         }
         if (finishedLevel)

@@ -7,6 +7,8 @@ TagManager:
   - PlayerSeat
   - Obstacles
   - Ground
+  - UIButton
+  - Interior
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - UI
   - Post Processing
   - Ground
-  - 
+  - Buttons
   - 
   - 
   - 

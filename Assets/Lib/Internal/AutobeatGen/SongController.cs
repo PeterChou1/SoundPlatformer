@@ -52,13 +52,8 @@ public class SongController : MonoBehaviour {
 
 			// We are not evaluating the audio as it is being played by Unity, so we need the clip's sampling rate
 			this.sampleRate = audioSource.clip.frequency;
-
 			audioSource.clip.GetData(multiChannelSamples, 0);
-			Debug.Log ("GetData done");
-
 			Thread bgThread = new Thread (this.getFullSpectrumThreaded);
-
-			Debug.Log ("Starting Background Thread");
 			bgThread.Start ();
 		}
 	}
@@ -115,8 +110,6 @@ public class SongController : MonoBehaviour {
 
 			FFT fft = new FFT ();
 			fft.Initialize ((UInt32)spectrumSampleSize);
-
-			Debug.Log (string.Format("Processing {0} time domain samples for FFT", iterations));
 			double[] sampleChunk = new double[spectrumSampleSize];
 			for (int i = 0; i < iterations; i++) {
 				// Grab the current 1024 chunk of audio sample data
@@ -139,9 +132,6 @@ public class SongController : MonoBehaviour {
 				preProcessedSpectralFluxAnalyzer.analyzeSpectrum (Array.ConvertAll (scaledFFTSpectrum, x => (float)x), curSongTime);
 			}
 
-			Debug.Log ("Spectrum Analysis done");
-			Debug.Log ("Background Thread Completed");
-				
 		} catch (Exception e) {
 			// Catch exceptions here since the background thread won't always surface the exception to the main thread
 			Debug.Log (e.ToString ());

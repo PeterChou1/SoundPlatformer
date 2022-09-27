@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip seatClip;
     public AudioClip exteriorFootStep;
     public AudioClip interiorFootStep;
-    [SerializeField] private bool lockCursor = true;
+    [SerializeField] private bool lockCursor = true; 
     [SerializeField] [Range(0.0f, 0.5f)] private float moveSmoothTime = 0.3f;
     [SerializeField] [Range(0.0f, 0.5f)] private float mouseSmoothTime = 0.03f;
     [SerializeField] private float gravity = -13f;
@@ -139,6 +139,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && seated)
         {
             cameraAnimator.Play("FP Camera");
+
+            BusAnimator.Play("Bus_DoorOpen");
+
             controller.enabled = true;
             seated = false;
         } 

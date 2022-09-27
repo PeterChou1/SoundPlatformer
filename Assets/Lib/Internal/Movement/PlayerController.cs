@@ -74,8 +74,10 @@ public class PlayerController : MonoBehaviour
 
     void UpdateMovement()
     {
+        Debug.Log("Seated: " + seated + " Equip Phone: " + equippedPhone);
         if (!seated && !equippedPhone)
         {
+            Debug.Log("Can move");
             Vector2 targetDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             targetDir.Normalize();
             currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
@@ -86,6 +88,8 @@ public class PlayerController : MonoBehaviour
             controller.Move(velocity * Time.deltaTime);
         }
     }
+
+
 
     void UpdateSound()
     {
@@ -132,7 +136,13 @@ public class PlayerController : MonoBehaviour
                 Cursor.visible = false;
             }
         }
-        if(Input.GetKey(KeyCode.E) && inSeatArea && !seated)
+        if (Input.GetKeyDown(KeyCode.E) && seated)
+        {
+            cameraAnimator.Play("FP Camera");
+            controller.enabled = true;
+            seated = false;
+        } 
+        else if(Input.GetKeyDown(KeyCode.E) && inSeatArea && !seated)
         {
             source.Stop();
             source.PlayOneShot(seatClip);

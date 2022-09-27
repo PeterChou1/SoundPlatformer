@@ -22,7 +22,6 @@ public class CollectableController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player hit");
             source.Play();
             animator.Play("Collected");
         }
@@ -30,7 +29,6 @@ public class CollectableController : MonoBehaviour
 
     public void DestroyCollectable()
     {
-        Debug.Log("Gameobject destroyed");
         Destroy(gameObject);
     }
 }

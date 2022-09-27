@@ -21,11 +21,12 @@ public class LevelCreator : MonoBehaviour
     private float clipLength;
     private float[] multiChannelSamples;
     private SpectralFluxAnalyzer preProcessedSpectralFluxAnalyzer;
-    private int index;
     private List<SpectralFluxInfo> pointInfo;
-    private Vector3 velocity = Vector3.zero;
     private Vector3 originalPos;
     private GameObject playerInScene;
+    private float LevelLength;
+    private bool finished = false;
+    private List<GameObject> levelObj = new List<GameObject>();
     enum Interacable
     {
 	    Obstacles, Collectable
@@ -57,10 +58,10 @@ public class LevelCreator : MonoBehaviour
 	        if (point.isPeak)
 	        {
 		        // randomly decide if this is an obstacle or coin
+		        
 		        Type type = typeof(Interacable);
 		        Array values = type.GetEnumValues();
-		        int randomIndex = UnityEngine.Random.Range(0, values.Length);
-		        Interacable spawnObjectType = (Interacable)values.GetValue(randomIndex);
+		        Interacable spawnObjectType = (Interacable)values.GetValue(GetRandomValue());
 		        GameObject spawnObject;
 		        if (spawnObjectType == Interacable.Collectable)
 		        {
@@ -68,7 +69,8 @@ public class LevelCreator : MonoBehaviour
 			        var worldPoint= map.CellToWorld(posThreshold);
 			        spawnObject = Instantiate(Collectable, worldPoint, Quaternion.identity);
 			        spawnObject.transform.parent = transform;
-			        Debug.Log("Spawn Object pos: " + spawnObject.transform.position);
+			        SetLayerMask(LayerMask.NameToLayer("UI"), spawnObject);
+			        levelObj.Add(spawnObject);
 		        }
 		        else if (spawnObjectType == Interacable.Obstacles)
 		        {
@@ -79,48 +81,65 @@ public class LevelCreator : MonoBehaviour
 			        worldPoint.y += objCollider.size.y;
 			        spawnObject.transform.position = worldPoint;
 			        spawnObject.transform.parent = transform;
-			        Debug.Log("Spawn Object pos: " + spawnObject.transform.position);
+			        SetLayerMask(LayerMask.NameToLayer("UI"), spawnObject);
+			        levelObj.Add(spawnObject);
 		        }
 	        }
         }
-        var start = new Vector3Int(0, (int)0, 0);
-        var startPt= map.CellToWorld(start);
-        var end = new Vector3Int(pointInfo.Count - 1, (int)0, 0);
-        var endPt= map.CellToWorld(end);
-        Debug.Log("Start point :" + startPt + " End pt : " + endPt);
-        //playerInScene = Instantiate(Player, new Vector3(0, 1, 0), Quaternion.identity);
-        //playerInScene.GetComponent<SpriteRenderer>().sortingOrder = 5;
+
+        Vector3 startPt = map.CellToWorld(new Vector3Int(0, 0, 0));
+        Vector3 endPt = map.CellToWorld(new Vector3Int(pointInfo.Count - 1, 0, 0));
+        LevelLength = (endPt - startPt).x;
+        playerInScene = Instantiate(Player, map.CellToWorld(new Vector3Int(0, 1, 0)), Quaternion.identity);
+        playerInScene.layer = LayerMask.NameToLayer("UI");
+        playerInScene.GetComponent<SpriteRenderer>().sortingOrder = 5;
+        // populate the background
+        float width = Background.GetComponent<SpriteRenderer>().bounds.size.x;
+        float height = Background.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+        float backgroundFill = 0;
+        int index = 0;
+        while (backgroundFill < LevelLength  + width)
+        {
+	        Vector3 pos = startPt + index * transform.right * width + transform.up * height;
+	        var backgroundObj = Instantiate(Background, pos, Quaternion.identity);
+	        backgroundObj.transform.parent = transform;
+	        SetLayerMask(LayerMask.NameToLayer("UI"), backgroundObj);
+	        index++;
+	        backgroundFill += width;
+	        levelObj.Add(backgroundObj);
+        }
         LevelCreated = true;
     }
-
+    
     public void DestroyLevel()
     {
 	    transform.position = originalPos;
 	    map.ClearAllTiles();
 	    audioSource.Stop();
 	    Destroy(playerInScene);
-	    index = 0;
+	    foreach (GameObject obj in levelObj)
+	    {
+		    Destroy(obj);
+	    }
 	    LevelCreated = false;
+	    finished = false;
     }
 
 
     public void Update()
     {
-	    if (LevelCreated && index < pointInfo.Count - 1)
+	    if (LevelCreated && !finished)
 	    {
-		    //var curSpectral = pointInfo[index];
-		    //var nextSpectral = pointInfo[index + 1];
-		    //var curDistance = Math.Abs(curSpectral.time - audioSource.time);
-		    //var nextDistance = Math.Abs(nextSpectral.time - audioSource.time);
-		    //if (nextDistance < curDistance)
-		    //{
-			//    index += 1;
-		    //}
-		    //Vector3 center = -map.GetCellCenterWorld(new Vector3Int(index, 0, 0));
-		    //Debug.Log("index: " + index + " Center of cell: " + center);
-		    //// current 
-		    //var currentPos = Vector3.SmoothDamp(map.transform.position, center, ref velocity, 0.03f);
-		    //map.transform.position = currentPos;
+		    float progress = audioSource.time / clipLength;
+		    Vector3 currentPos = transform.position;
+		    currentPos.x = -Mathf.Lerp(0, LevelLength, progress);
+		    transform.position = currentPos;
+		    if (Mathf.Approximately(progress, 1))
+		    {
+			    finished = true;
+			    var controller = playerInScene.GetComponent<PlayerPlatformerController>();
+			    controller.finishedLevel = finished;
+		    }
 	    }
     }
 
@@ -129,11 +148,14 @@ public class LevelCreator : MonoBehaviour
 	    return 1f / sampleRate * index;
     }
     
+    
+
+    
     public void getFullSpectrum() {
 
 	    try {
 			// We only need to retain the samples for combined channels over the time domain
-			float[] preProcessedSamples = new float[numTotalSamples];
+			float[] preProcessedSamples = new float[this.numTotalSamples];
 
 			int numProcessed = 0;
 			float combinedChannelAverage = 0f;
@@ -181,5 +203,25 @@ public class LevelCreator : MonoBehaviour
 			Debug.Log (e.ToString ());
 		}
 	}
+
+    /// 70% of returning 1 and 30% of returning 0
+    private int GetRandomValue() {
+	    float rand = UnityEngine.Random.value;
+	    if (rand <= .7f)
+		    return 1;
+	    return 0;
+    }
+
+    
+    private static void SetLayerMask(int mask, GameObject obj)
+    {
+	    obj.layer = mask;
+	    var children = obj.GetComponentsInChildren<Transform>(includeInactive: true);
+	    foreach (var child in children)
+	    {
+		    child.gameObject.layer = mask;
+	    }
+    }
+
 }
 

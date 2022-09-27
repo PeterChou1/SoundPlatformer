@@ -8,6 +8,7 @@ TagManager:
   - Obstacles
   - Ground
   - UIButton
+  - Interior
   layers:
   - Default
   - TransparentFX

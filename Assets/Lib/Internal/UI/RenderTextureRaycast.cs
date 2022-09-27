@@ -16,11 +16,9 @@ public class RenderTextureRaycast : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-         
             // do we hit our portal plane?
             if (Physics.Raycast(ray, out hit)) 
             {
-                Debug.Log(hit.collider.gameObject);
                 var localPoint = hit.textureCoord;
                 // convert the hit texture coordinates into camera coordinates
                 PointerEventData pointerData = new PointerEventData(EventSystem.current);

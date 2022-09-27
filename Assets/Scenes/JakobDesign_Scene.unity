@@ -5524,6 +5524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a052ada6c6dd86a4cade6a684212c091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldAnimator: {fileID: 0}
   Player: {fileID: 4182875971526465133, guid: dafc5f5121d3e3749924623bc0f50798, type: 3}
   Collectable: {fileID: 6877228320074171489, guid: 773eb3c9036cc2e43b36f49fde084de9,
     type: 3}
@@ -40525,6 +40526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a052ada6c6dd86a4cade6a684212c091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldAnimator: {fileID: 1450804111}
   Player: {fileID: 4182875971526465133, guid: dafc5f5121d3e3749924623bc0f50798, type: 3}
   Collectable: {fileID: 6877228320074171489, guid: a63e7a8bf226e6f449d7c81e66e2c7cb,
     type: 3}
@@ -42956,6 +42958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a052ada6c6dd86a4cade6a684212c091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldAnimator: {fileID: 0}
   Player: {fileID: 4182875971526465133, guid: dafc5f5121d3e3749924623bc0f50798, type: 3}
   Collectable: {fileID: 6877228320074171489, guid: 99b88f3537871eb49a194e4b4606d4aa,
     type: 3}
@@ -51512,6 +51515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a052ada6c6dd86a4cade6a684212c091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorldAnimator: {fileID: 0}
   Player: {fileID: 4182875971526465133, guid: dafc5f5121d3e3749924623bc0f50798, type: 3}
   Collectable: {fileID: 6877228320074171489, guid: 879e4c3bfe076eb47b1b7b086367a7f9,
     type: 3}

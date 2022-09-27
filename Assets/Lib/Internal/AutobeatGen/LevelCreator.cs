@@ -7,6 +7,8 @@ using UnityEngine.Tilemaps;
 
 public class LevelCreator : MonoBehaviour
 {
+	public Animator WorldAnimator;                                                                      //JAKOB SCRIPT JAKOB SCRIPT JAKOB SCRIPT JAKOB SCRIPT
+
 	public GameObject Player;
 	public GameObject Collectable;
 	public GameObject Obstacles;
@@ -141,6 +143,15 @@ public class LevelCreator : MonoBehaviour
 			    controller.finishedLevel = finished;
 		    }
 	    }
+
+		//weird SCRIPT for level finishing                                                                                //JAKOB SCRIPT  JAKOB SCRIPT  JAKOB SCRIPT  JAKOB SCRIPT  JAKOB SCRIPT currently finishing level 4 finishes the game
+
+		if (finished == true)
+        {
+			//GetComponent<Animation>()["BusRide_WeatherChange"].wrapMode = WrapMode.Once;
+			WorldAnimator.Play("BusRide_WeatherChange");
+        }
+
     }
 
     public float getTimeFromIndex(int index) 

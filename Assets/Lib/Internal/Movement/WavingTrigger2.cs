@@ -45,7 +45,7 @@ public class WavingTrigger2 : MonoBehaviour
         Debug.Log("Started game quit");
 
         //yield on a new YieldInstruction that waits for 5 seconds.
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(15);
 
         //After we have waited 5 seconds print the time again.
         Application.Quit();

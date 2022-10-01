@@ -7,6 +7,8 @@ using UnityEngine.Tilemaps;
 
 public class LevelCreator : MonoBehaviour
 {
+	
+
 	public Animator WorldAnimator;                                                                      //JAKOB SCRIPT JAKOB SCRIPT JAKOB SCRIPT JAKOB SCRIPT
 
 	public GameObject Player;
@@ -135,11 +137,16 @@ public class LevelCreator : MonoBehaviour
     {
 	    if (LevelCreated && !finished)
 	    {
-		    float progress = audioSource.time / clipLength;
+		    float progress = (audioSource.time / clipLength) / 1.5f;                                                         // did it! jakob
 		    Vector3 currentPos = transform.position;
+
 		    currentPos.x = -Mathf.Lerp(0, LevelLength, progress);
+
 		    transform.position = currentPos;
-		    if (Mathf.Approximately(progress, 1))
+
+			Debug.Log("wartosc dla JAKUBA" + (audioSource.time / clipLength) / 1.5f);
+
+			if (Mathf.Approximately(progress, 0.6666667f))
 		    {
 			    finished = true;
 			    var controller = playerInScene.GetComponent<PlayerPlatformerController>();
